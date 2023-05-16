@@ -1,3 +1,8 @@
+
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,7 +13,11 @@
  * @author oscar
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-
+    static final String USER = "a22oscmungar_userProg";
+    static final String PWD = "Oscar1234";
+    static final String URL = "labs.inspedralbes.cat";
+    static final String PORT = "3306";
+    static final String BD_NAME = "a22oscmungar_prog";
     /**
      * Creates new form VentanaPrincipal
      */
@@ -66,9 +75,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
+        try {
+            //</editor-fold>
+            /* Create and display the form */
+            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VentanaPrincipal().setVisible(true);
