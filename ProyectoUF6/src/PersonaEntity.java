@@ -15,7 +15,7 @@ public class PersonaEntity extends ORMEntity {
     // <editor-fold defaultstate="collapsed" desc="Propietats de l'objecte">
     /* Propietats de l'objecte */
     /* Camps de la taula */
-    private int idPersona;
+    private int codPersona;
     private String nom;
     private Date dataNaix;
 
@@ -23,7 +23,7 @@ public class PersonaEntity extends ORMEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     public PersonaEntity(int idPersona, String nom, Date dataNaix) {
-        this.idPersona = idPersona;
+        this.codPersona = idPersona;
         this.nom = nom;
         this.dataNaix = dataNaix;
     }
@@ -34,7 +34,7 @@ public class PersonaEntity extends ORMEntity {
      * Getters i Setters 
      */
     public int getidPersona() {
-        return idPersona;
+        return codPersona;
     }
 
     public String getNom() {

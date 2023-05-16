@@ -70,11 +70,11 @@ public class PersonaTable extends ORMTable {
         ArrayList<PersonaEntity> resultList = new ArrayList<PersonaEntity>();
 
         Statement consulta = getBDConnection().getConnection().createStatement();
-        ResultSet resultat = consulta.executeQuery("SELECT * FROM PERSONAS");
+        ResultSet resultat = consulta.executeQuery("SELECT * FROM PERSONA");
 
         while (resultat.next()) {
             PersonaEntity p = new PersonaEntity(
-                    resultat.getInt("idPersona"), 
+                    resultat.getInt("codPersona"), 
                     resultat.getString("Nom"),                     
                     resultat.getDate("dataNaix"));
             resultList.add(p);
