@@ -46,7 +46,7 @@ public class PersonaTable extends ORMTable {
         }
         PersonaEntity p = (PersonaEntity) o;
         String sqlCommand = "INSERT INTO PERSONA"
-                + "VALUES (NULL" + p.getidPersona() + ",'" + p.getNom() + "','" + p.getDataNaix() + ")";
+                + " VALUES (" + p.getidPersona() + ",'" + p.getNom() + "','" + p.getDataNaix() + "')";
 
         Statement st = getBDConnection().getConnection().createStatement();
         int numFilesAfectades = st.executeUpdate(sqlCommand);
@@ -74,7 +74,7 @@ public class PersonaTable extends ORMTable {
 
         while (resultat.next()) {
             PersonaEntity p = new PersonaEntity(
-                    resultat.getInt("codPersona"), 
+                    resultat.getString("codPersona"), 
                     resultat.getString("Nom"),                     
                     resultat.getDate("dataNaix"));
             resultList.add(p);

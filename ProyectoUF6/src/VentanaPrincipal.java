@@ -1,8 +1,11 @@
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Scanner;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -182,6 +185,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_nombreActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
         try {
             BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
             PersonaTable pt = new PersonaTable();
@@ -191,6 +195,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             nombre.setText(p.getNom());
             dataNaix.setText(p.getDataNaix().toString());
 
+            
             bdCon.closeConnection();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -199,6 +204,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         } catch (NullConnectionException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -235,7 +242,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ParseException {
+         Scanner scan = new Scanner(System.in);
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -257,9 +265,63 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        
 
         //</editor-fold>
         /* Create and display the form */
+          try {
+            //</editor-fold>
+            /* Create and display the form */
+            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+            PersonaTable pt = new PersonaTable();
+            pt.setConnection(bdCon);  
+            
+            System.out.println("Vols inserir una nova persona?");
+            if (scan.nextLine().equalsIgnoreCase("S")){
+                // inserir una Persona         
+                System.out.println("Nom: ");
+                String nom = scan.nextLine();
+                System.out.println("Fecha: ");
+                String fecha = scan.next();
+                String codi = null;
+             
+                Date date = Date.valueOf(fecha);
+                System.out.println(date);
+                PersonaEntity p = new PersonaEntity(codi,nom,date);
+                pt.Insert(p);
+                
+                
+                System.out.println("Segur que vols validar els canvis realitzats?");   
+                if (scan.nextLine().equalsIgnoreCase("S")) {
+                    //Confirma els canvis
+                    bdCon.confirmarCanvis();
+                
+                }else{
+                    //Desfà els canvis
+                    bdCon.desferCanvis();
+                }
+            }
+        ArrayList<PersonaEntity> listaPersonas = pt.GetAll();
+        for (PersonaEntity p : listaPersonas)
+            {
+                System.out.println("----");
+                System.out.println("ID: " + p.getidPersona());
+                System.out.println("Nom: " + p.getNom());
+                System.out.println("Data de naixement: " + p.getDataNaix());
+                System.out.println("----");
+            }
+
+          
+            // Desconnexio de la base de dades
+            bdCon.closeConnection();
+        
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullConnectionException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VentanaPrincipal().setVisible(true);
