@@ -8,17 +8,20 @@ import java.util.logging.Logger;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author oscar
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
+
     static final String USER = "a22oscmungar_userProg";
     static final String PWD = "Oscar1234";
     static final String URL = "labs.inspedralbes.cat";
     static final String PORT = "3306";
     static final String BD_NAME = "a22oscmungar_prog";
+    static int pos = 0;
+    static ArrayList<PersonaEntity> listaPersonas;
+
     /**
      * Creates new form VentanaPrincipal
      */
@@ -44,6 +47,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
         dataNaix = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -65,8 +70,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         borrarPersona.setText("BORRAR PERSONA");
 
         ModificarPersona.setText("MODIFICAR PERSONA");
+        ModificarPersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarPersonaActionPerformed(evt);
+            }
+        });
 
         verMascotas.setText("VER MASCOTAS");
+        verMascotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verMascotasActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Nom:");
 
@@ -80,6 +95,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
 
         dataNaix.setEditable(false);
+
+        jButton1.setText("<");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText(">");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,6 +133,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(ModificarPersona, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(verMascotas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(41, 41, 41))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(188, 188, 188)
+                .addComponent(jButton1)
+                .addGap(69, 69, 69)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,7 +160,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
                         .addComponent(dataNaix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(103, 103, 103)
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addGap(45, 45, 45)
                 .addComponent(verMascotas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40))
         );
@@ -134,7 +173,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void afegirPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afegirPersonaActionPerformed
-        // TODO add your handling code here:
+        VentanaAfegir va = new VentanaAfegir();
+        va.setVisible(true);
     }//GEN-LAST:event_afegirPersonaActionPerformed
 
     private void nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreActionPerformed
@@ -146,19 +186,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
             PersonaTable pt = new PersonaTable();
             pt.setConnection(bdCon);
-            ArrayList<PersonaEntity> listaPersonas = pt.GetAll();
-            for (PersonaEntity p : listaPersonas)
-            {
-                System.out.println("----");
-                System.out.println("ID: " + p.getidPersona());
-                System.out.println("Nom: " + p.getNom());
-                System.out.println("Data de naixement: " + p.getDataNaix());
-                System.out.println("----");
-                nombre.setText(p.getNom()); 
-                dataNaix.setText(p.getDataNaix().toString());
-                
-            }
-             bdCon.closeConnection();
+            listaPersonas = pt.GetAll();
+            PersonaEntity p = listaPersonas.get(pos);
+            nombre.setText(p.getNom());
+            dataNaix.setText(p.getDataNaix().toString());
+
+            bdCon.closeConnection();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -167,6 +200,37 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if ((pos - 1) >= 0) {
+            pos--;
+
+        }
+        PersonaEntity p = listaPersonas.get(pos);
+        
+        nombre.setText(p.getNom());
+        dataNaix.setText(p.getDataNaix().toString());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if ((pos + 1) <= listaPersonas.size()-1) {
+            pos++;
+        }
+        PersonaEntity p = listaPersonas.get(pos);
+       
+        nombre.setText(p.getNom());
+        dataNaix.setText(p.getDataNaix().toString());
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void verMascotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verMascotasActionPerformed
+        VentanaB v2 = new VentanaB();
+        v2.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_verMascotasActionPerformed
+
+    private void ModificarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarPersonaActionPerformed
+        VentanaUpdate vu = new VentanaUpdate();
+        vu.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_ModificarPersonaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -193,23 +257,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-       
-            //</editor-fold>
-            /* Create and display the form */
-            
-            
 
-            
-           
-        
-        
+        //</editor-fold>
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VentanaPrincipal().setVisible(true);
             }
         });
-        
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -217,6 +273,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton afegirPersona;
     private javax.swing.JButton borrarPersona;
     private javax.swing.JTextField dataNaix;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
