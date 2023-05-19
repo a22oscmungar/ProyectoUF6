@@ -1,6 +1,7 @@
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -49,6 +50,7 @@ public abstract class ORMTable{
     public abstract int Insert(ORMEntity o) throws NullConnectionException, SQLException;
     public abstract ArrayList<?> GetAll() throws NullConnectionException, SQLException;
     public abstract ArrayList<?> GetAllFrom(int cod) throws NullConnectionException, SQLException;
+    public abstract void Update(int cod,String nom, Date data) throws NullConnectionException, SQLException;
     // </editor-fold>
     
 }
