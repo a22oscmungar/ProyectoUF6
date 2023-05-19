@@ -23,13 +23,84 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="400" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="Titol" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="nom" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="dataNaix" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="ok" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="addNom" max="32767" attributes="0"/>
+                              <Component id="addDate" pref="166" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace pref="76" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+              <Component id="Titol" min="-2" pref="32" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="nom" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="addNom" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="dataNaix" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="addDate" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="52" max="32767" attributes="0"/>
+              <Component id="ok" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="Titol">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="AFEGIR PERSONA"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="nom">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nom:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="dataNaix">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Data naixement:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="addNom">
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="addDate">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="any - mes -dia"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addDateActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="ok">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="OK"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="okActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
 </Form>

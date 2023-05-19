@@ -1,13 +1,25 @@
+
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author oscar
  */
 public class VentanaAfegir extends javax.swing.JFrame {
+
+    static final String USER = "a22oscmungar_userProg";
+    static final String PWD = "Oscar1234";
+    static final String URL = "labs.inspedralbes.cat";
+    static final String PORT = "3306";
+    static final String BD_NAME = "a22oscmungar_prog";
 
     /**
      * Creates new form VentanaAfegir
@@ -25,21 +37,110 @@ public class VentanaAfegir extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Titol = new javax.swing.JLabel();
+        nom = new javax.swing.JLabel();
+        dataNaix = new javax.swing.JLabel();
+        addNom = new javax.swing.JTextField();
+        addDate = new javax.swing.JFormattedTextField();
+        ok = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        Titol.setText("AFEGIR PERSONA");
+
+        nom.setText("Nom:");
+
+        dataNaix.setText("Data naixement:");
+
+        addDate.setText("any - mes -dia");
+        addDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDateActionPerformed(evt);
+            }
+        });
+
+        ok.setText("OK");
+        ok.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Titol)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nom)
+                            .addComponent(dataNaix))
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ok)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(addNom)
+                                .addComponent(addDate, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(Titol, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nom)
+                    .addComponent(addNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dataNaix)
+                    .addComponent(addDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addComponent(ok)
+                .addGap(46, 46, 46))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void addDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDateActionPerformed
+        // TODO add your handling code here:
+        try {
+            //</editor-fold>
+            /* Create and display the form */
+            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+            PersonaTable pt = new PersonaTable();
+            pt.setConnection(bdCon);
+
+            // inserir una Persona         
+            String nom = addNom.getText();
+            String fecha = addDate.getText();
+            String codi = null;
+
+            Date date = Date.valueOf(fecha);
+            System.out.println(date);
+            PersonaEntity p = new PersonaEntity(codi, nom, date);
+            pt.Insert(p);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullConnectionException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_addDateActionPerformed
+
+    private void okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okActionPerformed
+
+        confirmar c = new confirmar();
+        c.setVisible(rootPaneCheckingEnabled);
+
+    }//GEN-LAST:event_okActionPerformed
 
     /**
      * @param args the command line arguments
@@ -77,5 +178,11 @@ public class VentanaAfegir extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Titol;
+    private javax.swing.JFormattedTextField addDate;
+    private javax.swing.JTextField addNom;
+    private javax.swing.JLabel dataNaix;
+    private javax.swing.JLabel nom;
+    private javax.swing.JButton ok;
     // End of variables declaration//GEN-END:variables
 }

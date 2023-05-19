@@ -115,7 +115,7 @@ public class VentanaB extends javax.swing.JFrame {
     }//GEN-LAST:event_nomMascotaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if ((pos - 1) > 0) {
+        if ((pos - 1) >= 0) {
             pos--;
 
         }
@@ -149,7 +149,7 @@ public class VentanaB extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if ((pos + 1) < listaMascotas.size()) {
-            pos--;
+            pos++;
 
         }
         MascotaEntity p = listaMascotas.get(pos);
