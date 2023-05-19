@@ -88,5 +88,10 @@ public class PersonaTable extends ORMTable {
     }
     // </editor-fold>
 
+    @Override
+    public ArrayList<?> GetAllFrom(int cod) throws NullConnectionException, SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
 

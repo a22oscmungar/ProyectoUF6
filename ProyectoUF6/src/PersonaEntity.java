@@ -27,6 +27,11 @@ public class PersonaEntity extends ORMEntity {
         this.nom = nom;
         this.dataNaix = dataNaix;
     }
+
+    public String getCodPersona() {
+        return codPersona;
+    }
+    
     //</editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Getters i Setters">

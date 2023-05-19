@@ -1,17 +1,32 @@
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author oscar
  */
 public class VentanaB extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VentabaB
-     */
+    static final String USER = "a22oscmungar_userProg";
+    static final String PWD = "Oscar1234";
+    static final String URL = "labs.inspedralbes.cat";
+    static final String PORT = "3306";
+    static final String BD_NAME = "a22oscmungar_prog";
+    static ArrayList<MascotaEntity> listaMascotas;
+    private int codAmo;
+    private int pos = 0;
+
+    public void setCodAmo(int codAmo) {
+        this.codAmo = codAmo;
+    }
+
     public VentanaB() {
         initComponents();
     }
@@ -28,8 +43,14 @@ public class VentanaB extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         nomMascota = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("MASCOTA:");
@@ -41,10 +62,17 @@ public class VentanaB extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
+        jButton1.setText("<");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText(">");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -57,10 +85,12 @@ public class VentanaB extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nomMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(14, 14, 14)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nomMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -71,7 +101,9 @@ public class VentanaB extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(nomMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap(93, Short.MAX_VALUE))
         );
 
@@ -83,8 +115,46 @@ public class VentanaB extends javax.swing.JFrame {
     }//GEN-LAST:event_nomMascotaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        if ((pos - 1) > 0) {
+            pos--;
+
+        }
+        MascotaEntity p = listaMascotas.get(pos);
+        nomMascota.setText(p.getNomMasc());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try {
+            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+            MascotaTable mt = new MascotaTable();
+            mt.setConnection(bdCon);
+            listaMascotas = mt.GetAllFrom(codAmo);
+            if (listaMascotas.size() == 0) {
+                nomMascota.setText("Encara no tinc mascotes");
+            } else {
+                MascotaEntity p = listaMascotas.get(pos);
+                nomMascota.setText(p.getNomMasc());
+
+            }
+            bdCon.closeConnection();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullConnectionException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if ((pos + 1) < listaMascotas.size()) {
+            pos--;
+
+        }
+        MascotaEntity p = listaMascotas.get(pos);
+        nomMascota.setText(p.getNomMasc());
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -124,6 +194,7 @@ public class VentanaB extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField nomMascota;
     // End of variables declaration//GEN-END:variables
