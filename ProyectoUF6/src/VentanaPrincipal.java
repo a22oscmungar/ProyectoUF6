@@ -289,6 +289,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void ModificarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarPersonaActionPerformed
         VentanaUpdate vu = new VentanaUpdate();
+        vu.setPos(pos);
         vu.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_ModificarPersonaActionPerformed
 

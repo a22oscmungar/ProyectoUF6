@@ -83,7 +83,7 @@ public class MascotaTable extends ORMTable{
     }
 
     @Override
-    public void Update(int cod, String nom, Date data) throws NullConnectionException, SQLException {
+    public void Update(int cod, String nom, String data) throws NullConnectionException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

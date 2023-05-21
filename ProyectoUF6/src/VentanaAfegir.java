@@ -142,7 +142,7 @@ public class VentanaAfegir extends javax.swing.JFrame {
             String codi = null;
 
             Date date = Date.valueOf(fecha);
-            System.out.println(date);
+            
             PersonaEntity p = new PersonaEntity(codi, nom, date);
             pt.Insert(p);
 
